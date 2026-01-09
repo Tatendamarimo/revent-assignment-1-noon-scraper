@@ -77,18 +77,6 @@ Files are named with timestamps:
 - Single keyword: `noon_scraper_iphone_2026-01-09_13-30-45.xlsx`
 - Multiple keywords: `noon_scraper_2026-01-09_13-30-45.xlsx`
 
-### Example Output
-
-Here's a sample of what the scraped data looks like:
-
-| Search Keyword | Category | Title | Description | Price | Rating | Reviews | Seller | Product URL |
-|----------------|----------|-------|-------------|-------|--------|---------|--------|-------------|
-| iphone | Electronics > Mobiles & Tablets | Apple iPhone 16 Pro Max | 256GB, Natural Titanium, 5G | AED 5,099 | 4.8 | 2.3K | noon | https://www.noon.com/... |
-| iphone | Electronics > Mobiles & Tablets | Apple iPhone 16 Pro Max | 256GB, Natural Titanium, 5G | AED 5,199 | 4.8 | 2.3K | TechStore | https://www.noon.com/... |
-| iphone | Electronics > Mobiles & Tablets | Apple iPhone 15 | 128GB, Black, 5G | AED 3,299 | 4.6 | 12.8K | noon | https://www.noon.com/... |
-
-**Note**: Products with multiple sellers appear on separate rows with different prices and seller names.
-
 ## Data Fields
 
 1. Search Keyword: The keyword used to find the product
@@ -153,141 +141,19 @@ revent-automation-assignment/
 
 ## Technical Details
 
-### Architecture Diagram
-
-```mermaid
-flowchart TD
-    A[User Input] --> B[main.py]
-    B --> C[NoonScraper]
-    C --> D[Initialize WebDriver]
-    D --> E[Search noon.com]
-    E --> F[Extract Product Links]
-    F --> G{For Each Product}
-    G --> H[Visit Product Page]
-    H --> I[Extract Basic Info]
-    I --> J{Other Sellers?}
-    J -->|Yes| K[Click Other Sellers]
-    J -->|No| M[Use Default Seller]
-    K --> L[Extract All Sellers]
-    L --> N[Create Rows]
-    M --> N
-    N --> O{More Products?}
-    O -->|Yes| G
-    O -->|No| P[ExcelExporter]
-    P --> Q[Format Data]
-    Q --> R[Apply Styling]
-    R --> S[Save Excel File]
-    S --> T[Output Directory]
-```
-
-### Scraping Logic & Architecture
-
-#### 1. **Search Flow**
-```
-User Input → Search noon.com → Extract Product Links → Visit Each Product → Extract Details → Export to Excel
-```
-
-The scraper follows a systematic approach:
-1. **Keyword Search**: Navigates to noon.com and searches for user-provided keywords
-2. **Product Discovery**: Extracts all product links from search results page
-3. **Detail Extraction**: Visits each product page individually to gather comprehensive data
-4. **Multi-Seller Handling**: Detects and clicks "Other Sellers" button to capture all available sellers
-5. **Data Aggregation**: Creates one row per product-seller combination
-6. **Excel Export**: Formats and exports data to timestamped Excel files
-
-#### 2. **Core Components**
-
-**`main.py`** - Entry Point
-- Handles user interaction and input validation
-- Orchestrates the scraping workflow
-- Manages error handling and progress reporting
-
-**`noon_scraper.py`** - Scraping Engine
-- Initializes Selenium WebDriver with anti-detection measures
-- Implements smart waiting strategies for dynamic content
-- Extracts 9 data fields per product-seller combination
-- Handles pagination and multi-seller modals
-
-**`excel_exporter.py`** - Data Export
-- Converts scraped data to pandas DataFrame
-- Creates formatted Excel files with styled headers
-- Auto-adjusts column widths for readability
-- Implements timestamp-based file naming
-
-**`config.py`** - Configuration
-- Centralizes all settings (URLs, timeouts, selectors)
-- Allows easy customization without code changes
-- Defines CSS selectors for robust element targeting
-
-#### 3. **Data Extraction Logic**
-
-For each product, the scraper:
-1. **Category**: Extracts from breadcrumb navigation
-2. **Title**: Gets the main product heading (H1)
-3. **Description**: Combines product highlights/features
-4. **Price**: Extracts current price (varies by seller)
-5. **Rating**: Gets average star rating (1-5)
-6. **Reviews**: Counts total number of reviews
-7. **Seller**: Identifies seller name (default + other sellers)
-8. **URL**: Captures direct product link
-
-**Multi-Seller Detection**:
-- Checks for "Other Sellers" button on product page
-- Clicks button to open seller modal
-- Extracts all seller names and their prices
-- Creates separate row for each seller
-- Falls back to default seller if no modal exists
-
-### Libraries Used
-
-#### **1. Selenium (`selenium`)**
-- **Purpose**: Web browser automation and JavaScript rendering
-- **Why**: noon.com is a dynamic website that loads content via JavaScript. Traditional HTTP requests (like `requests` library) cannot access this content
-- **Key Features Used**:
-  - WebDriver for browser control
-  - Explicit waits for dynamic content loading
-  - Element interaction (clicking, scrolling)
-  - JavaScript execution capabilities
-
-#### **2. WebDriver Manager (`webdriver-manager`)**
-- **Purpose**: Automatic ChromeDriver version management
-- **Why**: Eliminates manual ChromeDriver downloads and version compatibility issues
-- **Benefit**: Automatically downloads the correct ChromeDriver version matching the installed Chrome browser
-
-#### **3. Pandas (`pandas`)**
-- **Purpose**: Data manipulation and DataFrame creation
-- **Why**: Provides powerful data structures for organizing scraped data
-- **Key Features Used**:
-  - DataFrame for tabular data representation
-  - Excel export functionality
-  - Data validation and cleaning
-
-#### **4. OpenPyXL (`openpyxl`)**
-- **Purpose**: Excel file formatting and styling
-- **Why**: Allows advanced Excel formatting beyond basic pandas export
-- **Key Features Used**:
-  - Cell styling (colors, fonts, alignment)
-  - Column width auto-adjustment
-  - Header row freezing
-  - Professional Excel output
-
 ### Web Scraping Approach
 
-- **Selenium WebDriver**: Handles JavaScript-rendered content on noon.com
-- **Dynamic Waits**: Uses explicit waits (WebDriverWait) to ensure elements are loaded before extraction
-- **Multi-Seller Detection**: Automatically clicks "Other Sellers" button and extracts modal content
-- **Error Handling**: Try-catch blocks ensure scraping continues even if individual products fail
-- **Robust Selectors**: Uses multiple fallback CSS selectors to handle website structure changes
+- **Selenium WebDriver**: Handles JavaScript-rendered content
+- **Dynamic Waits**: Waits for elements to load before extraction
+- **Multi-Seller Detection**: Clicks "Other Sellers" button to access modal
+- **Error Handling**: Continues scraping even if individual products fail
 
 ### Anti-Bot Measures
 
-The scraper implements several techniques to avoid detection:
-
-- **Random Delays**: 2-4 second delays between requests to mimic human behavior
-- **Human-like Scrolling**: Smooth scrolling behavior before extracting content
-- **Realistic User Agent**: Sets browser user agent to appear as regular Chrome browser
-- **Disabled Automation Flags**: Removes Selenium detection indicators
-- **Gradual Loading**: Waits for page elements rather than forcing immediate extraction
+- Random delays between requests (2-4 seconds)
+- Human-like scrolling behavior
+- Realistic user agent
+- Disabled automation flags
 
 ## Limitations
 
