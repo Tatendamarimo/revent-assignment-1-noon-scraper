@@ -162,10 +162,6 @@ revent-automation-assignment/
 - noon.com may implement additional anti-scraping measures
 - Some product fields may be "N/A" if not available
 
-## Legal Notice
-
-This scraper is for educational purposes. Always respect website terms of service and robots.txt. Use responsibly and ethically.
-
 ## Support
 
 For issues or questions:
@@ -205,7 +201,3 @@ Potential improvements for future versions:
 - **CAPTCHA Handling**: Automated CAPTCHA solving integration
 - **Retry Logic**: Automatic retry on failed requests
 - **Session Management**: Maintain sessions for authenticated scraping
-
-## Version
-
-v1.0 - Initial release (2026-01-09)
