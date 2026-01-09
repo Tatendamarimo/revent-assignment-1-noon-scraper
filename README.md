@@ -173,6 +173,39 @@ For issues or questions:
 2. Review this README's troubleshooting section
 3. Verify all dependencies are installed correctly
 
+## Future Enhancements
+
+Potential improvements for future versions:
+
+### Performance
+- **Pagination Support**: Scrape multiple pages of results per keyword
+- **Parallel Scraping**: Multi-threaded scraping for faster data collection
+- **Caching**: Store previously scraped data to avoid redundant requests
+
+### Features
+- **Price Tracking**: Monitor price changes over time with historical data
+- **Image Downloading**: Save product images locally
+- **Advanced Filters**: Filter by price range, ratings, availability, etc.
+- **Comparison Mode**: Compare prices across different sellers automatically
+- **Wishlist Monitoring**: Track specific products for price drops
+
+### Data Management
+- **Database Integration**: Store data in SQLite/PostgreSQL instead of Excel only
+- **Multiple Export Formats**: Support CSV, JSON, and database exports
+- **Data Visualization**: Generate charts and graphs from scraped data
+
+### User Experience
+- **GUI Interface**: Desktop application with visual controls
+- **Email Notifications**: Alerts when scraping completes or errors occur
+- **Scheduled Scraping**: Automatic periodic scraping with cron/scheduler
+- **CLI Arguments**: Command-line options for automation
+
+### Reliability
+- **Proxy Support**: Rotate proxies to avoid IP blocking
+- **CAPTCHA Handling**: Automated CAPTCHA solving integration
+- **Retry Logic**: Automatic retry on failed requests
+- **Session Management**: Maintain sessions for authenticated scraping
+
 ## Version
 
 v1.0 - Initial release (2026-01-09)
