@@ -1,40 +1,37 @@
 # Noon Web Scraper
 
-A Python-based web scraper for noon.com that extracts product listings with multi-seller support and exports data to Excel format.
+A Python web scraper for noon.com that extracts product listings with multi-seller support and exports to Excel.
 
 ## Features
 
-- Keyword Search: Search for any product keyword on noon.com
-- Multi-Seller Support: Automatically detects and captures all sellers for each product
-- Comprehensive Data: Extracts 9 fields per product-seller combination
-- Excel Export: Formatted Excel output with auto-adjusted columns
-- Smart Scraping: Includes delays and human-like behavior to avoid bot detection
-- Progress Tracking: Real-time progress updates during scraping
+- Search for products by keyword
+- Automatically detects multiple sellers for each product
+- Extracts 9 data fields per product-seller combination
+- Exports to formatted Excel files
+- Includes delays to avoid bot detection
+- Real-time progress tracking
 
 ## Requirements
 
 - Python 3.7+
-- Chrome browser installed
+- Chrome browser
 - Internet connection
 
 ## Installation
 
-1. **Clone or download this repository**
+Clone the repository and install dependencies:
 
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+pip install -r requirements.txt
+```
 
-   This will install:
-   - `selenium` - Web automation
-   - `webdriver-manager` - Automatic ChromeDriver management
-   - `pandas` - Data manipulation
-   - `openpyxl` - Excel file creation
+This installs:
+- `selenium` - Web automation
+- `webdriver-manager` - Automatic ChromeDriver management
+- `pandas` - Data manipulation
+- `openpyxl` - Excel file creation
 
 ## Usage
-
-### Basic Usage
 
 Run the scraper:
 
@@ -42,13 +39,12 @@ Run the scraper:
 python main.py
 ```
 
-Follow the interactive prompts:
-1. Enter search keywords (one per line)
+Follow the prompts:
+1. Enter search keywords (one per line, type "done" when finished)
 2. Optionally set a limit for products per keyword
-3. Confirm and start scraping
+3. Confirm to start scraping
 
-### Example Session
-
+Example:
 ```
 Keyword 1: iphone
 Keyword 2: samsung galaxy
@@ -61,17 +57,13 @@ Proceed with scraping? (yes/no): yes
 
 ## Output
 
-### Excel File
-
-The scraper creates an Excel file in the `output/` directory with the following format:
+The scraper creates an Excel file in the `output/` directory:
 
 | Search Keyword | Category | Title | Description | Price | Rating | Reviews | Seller | Product URL |
 |----------------|----------|-------|-------------|-------|--------|---------|--------|-------------|
 | iphone | Electronics > Mobiles | iPhone 16... | 128GB, White... | AED 3,999 | 4.6 | 12.8K | noon | https://... |
 
-**Note**: Products with multiple sellers will have one row per seller.
-
-### File Naming
+Note: Products with multiple sellers will have one row per seller.
 
 Files are named with timestamps:
 - Single keyword: `noon_scraper_iphone_2026-01-09_13-30-45.xlsx`
@@ -79,51 +71,45 @@ Files are named with timestamps:
 
 ## Data Fields
 
-1. Search Keyword: The keyword used to find the product
-2. Category: Product category from breadcrumbs (e.g., "Electronics > Mobiles & Tablets")
-3. Title: Full product title
-4. Description: Product highlights/description
-5. Price: Product price (varies by seller)
-6. Rating: Product rating (1-5 stars)
-7. Reviews: Number of reviews
-8. Seller: Seller name (e.g., "noon", "TechStore")
-9. Product URL: Direct link to product page
+1. Search Keyword - The keyword used to find the product
+2. Category - Product category from breadcrumbs
+3. Title - Full product title
+4. Description - Product highlights/description
+5. Price - Product price (varies by seller)
+6. Rating - Product rating (1-5 stars)
+7. Reviews - Number of reviews
+8. Seller - Seller name (e.g., "noon", "TechStore")
+9. Product URL - Direct link to product page
 
 ## Configuration
 
-Edit `config.py` to customize:
-
-- Timeouts: Adjust wait times for page loading
-- Delays: Modify delays between requests
-- Selectors: Update CSS selectors if website structure changes
-- Output: Change output directory or filename format
+You can edit `config.py` to customize:
+- Timeouts and delays
+- CSS selectors (if website structure changes)
+- Output directory and filename format
 
 ## Troubleshooting
 
-### Common Issues
-
-1. ChromeDriver not found
+**ChromeDriver not found**
 - The script automatically downloads ChromeDriver
-- Ensure Chrome browser is installed
+- Make sure Chrome browser is installed
 
-2. No data scraped
-- Check internet connection
+**No data scraped**
+- Check your internet connection
 - Verify noon.com is accessible
-- Review `scraper.log` for detailed error messages
+- Check `scraper.log` for error details
 
-3. CAPTCHA appears
-- The scraper includes delays to avoid detection
-- If CAPTCHA appears, you may need to solve it manually
-- Consider increasing delays in `config.py`
+**CAPTCHA appears**
+- The scraper includes delays to avoid this
+- If it happens, you may need to solve it manually
+- Try increasing delays in `config.py`
 
-4. Selectors not working
-- noon.com may have updated their website structure
+**Selectors not working**
+- noon.com may have updated their website
 - Update CSS selectors in `config.py`
 - Check `scraper.log` for specific errors
 
-### Logs
-
-Check `scraper.log` for detailed execution logs and error messages.
+Check `scraper.log` for detailed execution logs.
 
 ## Project Structure
 
@@ -135,69 +121,22 @@ revent-automation-assignment/
 ├── config.py               # Configuration settings
 ├── requirements.txt        # Python dependencies
 ├── README.md              # This file
-├── output/                # Excel output directory (created automatically)
-└── scraper.log           # Log file (created automatically)
+├── output/                # Excel output directory (auto-created)
+└── scraper.log           # Log file (auto-created)
 ```
 
-## Technical Details
+## How It Works
 
-### Web Scraping Approach
-
-- **Selenium WebDriver**: Handles JavaScript-rendered content
-- **Dynamic Waits**: Waits for elements to load before extraction
-- **Multi-Seller Detection**: Clicks "Other Sellers" button to access modal
-- **Error Handling**: Continues scraping even if individual products fail
-
-### Anti-Bot Measures
-
-- Random delays between requests (2-4 seconds)
-- Human-like scrolling behavior
-- Realistic user agent
-- Disabled automation flags
+- Uses Selenium WebDriver to handle JavaScript-rendered content
+- Waits for elements to load before extraction
+- Clicks "Other Sellers" button to access seller modal
+- Continues scraping even if individual products fail
+- Includes random delays (2-4 seconds) between requests
+- Uses realistic user agent and disables automation flags
 
 ## Limitations
 
-- Scraping speed is intentionally slow to avoid detection
-- Large scrapes (100+ products) may take significant time
+- Scraping is intentionally slow to avoid detection
+- Large scrapes (100+ products) take time
 - noon.com may implement additional anti-scraping measures
-- Some product fields may be "N/A" if not available
-
-## Support
-
-For issues or questions:
-1. Check `scraper.log` for error details
-2. Review this README's troubleshooting section
-3. Verify all dependencies are installed correctly
-
-## Future Enhancements
-
-Potential improvements for future versions:
-
-### Performance
-- **Pagination Support**: Scrape multiple pages of results per keyword
-- **Parallel Scraping**: Multi-threaded scraping for faster data collection
-- **Caching**: Store previously scraped data to avoid redundant requests
-
-### Features
-- **Price Tracking**: Monitor price changes over time with historical data
-- **Image Downloading**: Save product images locally
-- **Advanced Filters**: Filter by price range, ratings, availability, etc.
-- **Comparison Mode**: Compare prices across different sellers automatically
-- **Wishlist Monitoring**: Track specific products for price drops
-
-### Data Management
-- **Database Integration**: Store data in SQLite/PostgreSQL instead of Excel only
-- **Multiple Export Formats**: Support CSV, JSON, and database exports
-- **Data Visualization**: Generate charts and graphs from scraped data
-
-### User Experience
-- **GUI Interface**: Desktop application with visual controls
-- **Email Notifications**: Alerts when scraping completes or errors occur
-- **Scheduled Scraping**: Automatic periodic scraping with cron/scheduler
-- **CLI Arguments**: Command-line options for automation
-
-### Reliability
-- **Proxy Support**: Rotate proxies to avoid IP blocking
-- **CAPTCHA Handling**: Automated CAPTCHA solving integration
-- **Retry Logic**: Automatic retry on failed requests
-- **Session Management**: Maintain sessions for authenticated scraping
+- Some fields may show "N/A" if not available
