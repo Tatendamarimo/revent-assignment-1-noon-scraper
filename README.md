@@ -114,11 +114,12 @@ Check `scraper.log` for detailed execution logs.
 ## Project Structure
 
 ```
-revent-automation-assignment/
+revent-assignment-1-noon-scraper/
 ├── main.py                 # Main entry point
 ├── noon_scraper.py         # Core scraper logic
 ├── excel_exporter.py       # Excel export functionality
 ├── config.py               # Configuration settings
+├── test_scraper.py         # Test file
 ├── requirements.txt        # Python dependencies
 ├── README.md              # This file
 ├── output/                # Excel output directory (auto-created)
